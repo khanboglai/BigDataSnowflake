@@ -85,6 +85,18 @@ CREATE TABLE IF NOT EXISTS d_product_brand (
     brand_name VARCHAR(100)
 );
 
+
+CREATE TABLE IF NOT EXISTS d_product_material (
+    id SERIAL PRIMARY KEY,
+    material_type VARCHAR(150)
+);
+
+CREATE TABLE IF NOT EXISTS d_product_size (
+    id SERIAL PRIMARY KEY,
+    size_type VARCHAR(100)
+);
+
+
 CREATE TABLE IF NOT EXISTS d_product (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100),
@@ -94,9 +106,9 @@ CREATE TABLE IF NOT EXISTS d_product (
     pet_category_id INT,
     weight NUMERIC(10, 2),
     color_id INT,
-    size VARCHAR(10),
+    size_id INT,
     brand_id INT,
-    material VARCHAR(15),
+    material_id INT,
     description TEXT,
     rating NUMERIC(10, 2),
     reviews INT,
@@ -105,7 +117,9 @@ CREATE TABLE IF NOT EXISTS d_product (
     FOREIGN KEY (category_id) REFERENCES d_product_category(id),
     FOREIGN KEY (pet_category_id) REFERENCES d_pet_category(id),
     FOREIGN KEY (color_id) REFERENCES d_product_color(id),
+    FOREIGN KEY (size_id) REFERENCES d_product_size(id),
     FOREIGN KEY (brand_id) REFERENCES d_product_brand(id),
+    FOREIGN KEY (material_id) REFERENCES d_product_material(id),
     FOREIGN KEY (release_date_id) REFERENCES d_time(id),
     FOREIGN KEY (expire_date_id) REFERENCES d_time(id)
 );
@@ -120,10 +134,10 @@ CREATE TABLE IF NOT EXISTS d_store (
     name VARCHAR(100),
     location VARCHAR(200),
     city_id INT,
-    state VARCHAR(20),
+    state VARCHAR(60),
     country_id INT,
     phone VARCHAR(15),
-    email VARCHAR(20),
+    email VARCHAR(100),
     FOREIGN KEY (city_id) REFERENCES d_city(id),
     FOREIGN KEY (country_id) REFERENCES d_country(id)
 );
@@ -132,7 +146,7 @@ CREATE TABLE IF NOT EXISTS d_supplier (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100),
     contact VARCHAR(100),
-    email VARCHAR(20),
+    email VARCHAR(100),
     phone VARCHAR(15),
     address VARCHAR(20),
     city_id INT,
