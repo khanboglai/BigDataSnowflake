@@ -148,7 +148,7 @@ from mock_data;
 
 -- customers
 insert into d_customer (id, first_name, last_name, age, email, country_id, postal_code, pet_id)
-select distinct m.id, m.customer_first_name, m.customer_last_name, m.customer_age, m.customer_email,
+select distinct on (m.id) m.id, m.customer_first_name, m.customer_last_name, m.customer_age, m.customer_email,
        c.id as country_id,
        m.customer_postal_code,
        p.id as pet_id
@@ -158,7 +158,8 @@ left join d_type t on t.type_name = m.customer_pet_type
 left join d_breed b on b.breed_name = m.customer_pet_breed
 left join d_pet p on p.type_id = t.id
                  and p.name = m.customer_pet_name
-                 and p.breed_id = b.id;
+                 and p.breed_id = b.id
+order by m.id;
 
 
 -- products
